@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Phoenix Kata Angular</title>
+
+    
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="app/module.js"></script>
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
+
+    <style>
+        div.welcome{float:left; display:block; margin:0 0 10px 10px; width:100%; clear:both}
+        div.bookingForm {
+            float: left;
+            display: block;
+            margin: 0 0 10px 10px
+        }
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+        table td.red {color:#ff0000}
+        table td.blue {color:#0000ff}
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        input.editType{width:120px; border-color:#ddd; border-width:1px; height:30px; font-size:16px; padding-left:5px}
+        input.editTypeBig {
+            width: 180px;
+        }
+    </style>
+</head>
+
+
+    <body ng-app="PhoenixKata">
+        <div class="welcome"><h1>Welcome to our booking system</h1></div>
+
+
+        <div data-ng-controller="bookingController" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Add New Booking</a></p>
+                    
+                    <strong class="error">{{ error }}</strong>
+                    <form name="addBooking" style="width:600px;margin:0px auto;" data-ng-hide="viewMode">
+                        <div class="form-group"><h2 style="width:600px;margin:0px auto;"> Add a Booking </h2></div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <input type="hidden" class="form-control" id="BookingId" data-ng-model="newbooking.BookingId" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="TableNumber" class="col-sm-4 control-label">Table Number:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="TableNumber" placeholder="please enter a table number" data-ng-model="newbooking.TableNumber" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ContactName" class="col-sm-4 control-label">Contact Name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="ContactName" placeholder="please enter your name" data-ng-model="newbooking.ContactName" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ContactNumber" class="col-sm-4 control-label">Contact Number:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="ContactNumber" placeholder="please enter your contact number" data-ng-model="newbooking.ContactNumber" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="NumberOfPeople" class="col-sm-4 control-label">Number of People:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="NumberOfPeople" placeholder="please enter number of diners" data-ng-model="newbooking.NumberOfPeople" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BookingTime" class="col-sm-4 control-label">Booking Date and Time:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="BookingTime" placeholder="please enter a date and time" data-ng-model="newbooking.BookingTime" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Add" data-ng-click="add()"  class="btn btn-primary" />
+                                <input type="button" value="Cancel" data-ng-click="toggleAdd()" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!--</script>
+
+        <script type="text/ng-template" id="viewBookings.htm">-->
+            <div class="row" data-ng-hide="addMode">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Table Number</th>
+                                <th>Contact Name</th>
+                                <th>Contact Number</th>
+                                <th>Number of People</th>
+                                <th>Booking Time</th>
+                                <th>&nbsp;</th>
+                            </tr>
+
+                            <tr ng-repeat="booking in bookings | orderBy:'bookingTime'">
+                                <td>{{ booking.bookingId }}</td>
+                                <td><p data-ng-hide="booking.editMode">{{ booking.tableNumber }}</p>
+                                    <input class="editType" data-ng-show="booking.editMode" type="text" data-ng-model="booking.tableNumber" />
+                                </td>
+                                <td><p data-ng-hide="booking.editMode">{{ booking.contactName }}</p>
+                                    <input class="editType"  data-ng-show="booking.editMode" type="text" data-ng-model="booking.contactName" />
+                                </td>
+                                <td><p data-ng-hide="booking.editMode">{{ booking.contactNumber }}</p>
+                                    <input class="editType" data-ng-show="booking.editMode" type="text" data-ng-model="booking.contactNumber" />
+                                </td>
+                                <td ng-class="{'red':booking.numberOfPeople>5, 'blue':booking.numberOfPeople==1}">
+                                    <p data-ng-hide="booking.editMode">{{ booking.numberOfPeople }}</p>
+                                    <input class="editType" data-ng-show="booking.editMode" type="text" data-ng-model="booking.numberOfPeople" />
+                                </td>
+                                <td>
+                                    <p data-ng-hide="booking.editMode">{{ booking.bookingTime }}</p>
+                                    <input class="editType editTypeBig" data-ng-show="booking.editMode" type="text" data-ng-model="booking.bookingTime" />
+</td>
+                                <td>
+                                    <p data-ng-hide="booking.editMode"><a data-ng-click="toggleEdit(booking)" href="javascript:;">Edit</a></p>
+                                    <p data-ng-show="booking.editMode"><a data-ng-click="save(booking)" href="javascript:;">Save</a> | <a data-ng-click="toggleEdit(booking)" href="javascript:;">Cancel</a></p>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <!--</script>-->
+        </div>
+</body>
+</html>
