@@ -1,0 +1,50 @@
+﻿[
+  {
+    "bookingId": 1,
+    "tableNumber": 1,
+    "contactName": "Mark Quinn",
+    "contactNumber": "07826374821",
+    "numberOfPeople": 4,
+    "bookingTime": "2017-06-25T13:00:00.000Z"
+  },
+  {
+    "bookingId": 2,
+    "tableNumber": 3,
+    "contactName": "Callum Evans",
+    "contactNumber": "07326372821",
+    "numberOfPeople": 1,
+    "bookingTime": "2017-06-25T15:00:00.000Z"
+  },
+  {
+    "bookingId": 3,
+    "tableNumber": 2,
+    "contactName": "Tom Sykes",
+    "contactNumber": "07826374521",
+    "numberOfPeople": 3,
+    "bookingTime": "2017-06-25T14:00:00.000Z"
+  },
+  {
+    "bookingId": 4,
+    "tableNumber": 4,
+    "contactName": "Nicole Taylor",
+    "contactNumber": "07226374521",
+    "numberOfPeople": 10,
+    "bookingTime": "2017-06-25T10:30:00.000Z"
+  },
+  {
+    "bookingId": 5,
+    "tableNumber": 3,
+    "contactName": "Stephen Baker",
+    "contactNumber": "07826124521",
+    "numberOfPeople": 6,
+    "bookingTime": "2017-06-25T20:15:00.000Z"
+  },
+  {
+    "bookingId": 6,
+    "tableNumber": 1,
+    "contactName": "Henry Ho",
+    "contactNumber": "07126124521",
+    "numberOfPeople": 7,
+    "bookingTime": "2017-06-25T20:00:00.000Z"
+  }
+]
